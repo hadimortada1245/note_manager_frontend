@@ -1,11 +1,11 @@
 import axios from "axios";
-export const addNote = (
-title,
-content
-) => {
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+export const addNote = (title, content) => {
   const newNote = {
     title,
-    content
+    content,
   };
   return (dispatch) => {
     axios
@@ -13,11 +13,12 @@ content
       .then((response) => {
         const note = response.data.note;
         dispatch({
-          type: "addNote",
+          type: 'addNote',
           payload: note,
         });
+        toast.success('Note added successfully!');
       })
-      .catch((error) => console.log("Failed to add a note :", error.response.data));
+      .catch((error) => { console.log('Failed to add a note:', error.response.data); toast.warning('Something get wrong!!'); });
   };
 };
 export const getAllNotes = () => {
@@ -25,7 +26,7 @@ export const getAllNotes = () => {
     axios
       .get("http://localhost:5000/notes/getAll")
       .then((response) => {
-        const notes = response.data.notes;
+        const notes = response.data.allNotes;
         dispatch({
           type: "getAllNotes",
           payload: notes,
@@ -43,6 +44,7 @@ export const deleteNote = (Id) => {
           type: "deleteNote",
           payload: Id,
         });
+        toast.success('The note deleted successfully!');
       })
       .catch((error) => console.log("Failed to delete the note :", error));
   };
@@ -55,7 +57,7 @@ export const updateNote = (
 ) => {
   const updatedNote = {
     title,
-  content
+    content
   };
   return (dispatch) => {
     axios
@@ -66,22 +68,24 @@ export const updateNote = (
           type: "updatedNote",
           payload: { Id, note },
         });
+        toast.success('Updated  one note successfully!');
       })
       .catch((error) => console.log("Failed to update the note :", error));
   };
 };
-export const getNoteById= (
+export const getNoteById = (
   Id
 ) => {
- 
+
   return (dispatch) => {
+    console.log(Id)
     axios
       .get(`http://localhost:5000/notes/getNoteById/${Id}`)
       .then((response) => {
         const note = response.data.note;
         dispatch({
           type: "getNoteById",
-          payload: note ,
+          payload: note,
         });
       })
       .catch((error) => console.log("Failed to get the note by its id:", error));
