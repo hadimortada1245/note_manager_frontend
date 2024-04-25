@@ -7,9 +7,10 @@ export const addNote = (title, content) => {
     title,
     content,
   };
+  // http://localhost:5000/notes/add
   return (dispatch) => {
     axios
-      .post(`http://localhost:5000/notes/add`, newNote)
+      .post(`http://localhost:3000/api/notes/addNote`, newNote)
       .then((response) => {
         const note = response.data.note;
         dispatch({
@@ -22,9 +23,10 @@ export const addNote = (title, content) => {
   };
 };
 export const getAllNotes = () => {
+  // http://localhost:5000/notes/getAll
   return (dispatch) => {
     axios
-      .get("http://localhost:5000/notes/getAll")
+      .get("http://localhost:3000/api/notes")
       .then((response) => {
         const notes = response.data.allNotes;
         dispatch({
@@ -36,9 +38,10 @@ export const getAllNotes = () => {
   };
 };
 export const deleteNote = (Id) => {
+  // http://localhost:5000/notes/deleteNoteById/6627f7c509117b1d6ae8778f
   return (dispatch) => {
     axios
-      .delete(`http://localhost:5000/notes/deleteNoteById/${Id}`)
+      .delete(`http://localhost:3000/api/notes/deleteNote/?id=${Id}`)
       .then((response) => {
         dispatch({
           type: "deleteNote",
@@ -46,7 +49,7 @@ export const deleteNote = (Id) => {
         });
         toast.success('The note deleted successfully!');
       })
-      .catch((error) => console.log("Failed to delete the note :", error));
+      .catch((error) =>{ console.log("Failed to delete the note :", error);toast.warning('Something get wrong!!');});
   };
 };
 
@@ -55,13 +58,14 @@ export const updateNote = (
   title,
   content
 ) => {
+  // http://localhost:5000/notes/updateNoteById/6627f7c509117b1d6ae8778f
   const updatedNote = {
     title,
     content
   };
   return (dispatch) => {
     axios
-      .put(`http://localhost:5000/notes/updateNoteById/${Id}`, updatedNote)
+      .put(`http://localhost:3000/api/notes/updateNote/${Id}`, updatedNote)
       .then((response) => {
         const note = response.data.note;
         dispatch({
@@ -70,17 +74,16 @@ export const updateNote = (
         });
         toast.success('Updated  one note successfully!');
       })
-      .catch((error) => console.log("Failed to update the note :", error));
+      .catch((error) =>{ console.log("Failed to update the note :", error);toast.warning('Something get wrong!!');});
   };
 };
 export const getNoteById = (
   Id
 ) => {
-
+//http://localhost:5000/notes/getNoteById/6627f7c509117b1d6ae8778f
   return (dispatch) => {
-    console.log(Id)
     axios
-      .get(`http://localhost:5000/notes/getNoteById/${Id}`)
+      .get(`http://localhost:3000/api/notes/getOneById/${Id}`)
       .then((response) => {
         const note = response.data.note;
         dispatch({

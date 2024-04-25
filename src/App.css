@@ -29,6 +29,7 @@
   flex-direction: column;
   row-gap: 25px;
   height: fit-content;
+  margin-bottom: 35px;
 }
 
 .head-l-notes {
